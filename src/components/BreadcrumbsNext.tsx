@@ -1,0 +1,44 @@
+import Link from 'next/link';
+import { ChevronRight } from 'lucide-react';
+
+export interface Breadcrumb {
+  label: string;
+  href?: string;
+}
+
+interface BreadcrumbsProps {
+  items: Breadcrumb[];
+}
+
+export function Breadcrumbs({ items }: BreadcrumbsProps) {
+  return (
+    <nav aria-label="Breadcrumb" className="mb-6">
+      <ol className="flex items-center gap-2 text-sm">
+        {items.map((item, index) => {
+          const isLast = index === items.length - 1;
+
+          return (
+            <li key={index} className="flex items-center gap-2">
+              {index > 0 && (
+                <ChevronRight className="w-4 h-4 text-slate-400" aria-hidden="true" />
+              )}
+              {isLast || !item.href ? (
+                <span className="text-slate-900 font-medium" aria-current="page">
+                  {item.label}
+                </span>
+              ) : (
+                <Link
+                  href={item.href}
+                  className="text-slate-600 hover:text-slate-900 transition-colors"
+                >
+                  {item.label}
+                </Link>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
